@@ -1,0 +1,9 @@
+{
+    "name": "ssrf-internal-flag-service",
+    "version": "1.0.0",
+    "description": "Internal flag vault service - localhost only",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    }
+}

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureNet Fetcher | CTF Challenge</title>
+  <meta name="description" content="A highly secure URL fetcher with enterprise-grade SSRF protection. Can you break through?" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Particle canvas background -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Scanline overlay -->
+  <div class="scanlines"></div>
+
+  <!-- CRT vignette -->
+  <div class="vignette"></div>
+
+  <!-- Top status bar -->
+  <header class="status-bar">
+    <div class="status-left">
+      <span class="status-dot online"></span>
+      <span class="status-text">SECURENET OS v4.2.1</span>
+    </div>
+    <div class="status-center">
+      <span class="blink-text">⚠ CLASSIFIED SYSTEM ⚠</span>
+    </div>
+    <div class="status-right">
+      <span id="clock" class="status-text">00:00:00</span>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container">
+
+    <!-- Logo / Title area -->
+    <section class="hero">
+      <div class="glitch-wrapper">
+        <h1 class="glitch" data-text="SECURENET">SECURENET</h1>
+      </div>
+      <p class="subtitle">ADVANCED SSRF PROTECTION SYSTEM</p>
+      <div class="shield-container">
+        <div class="shield-ring ring1"></div>
+        <div class="shield-ring ring2"></div>
+        <div class="shield-ring ring3"></div>
+        <div class="shield-icon">🛡</div>
+      </div>
+      <div class="hero-tags">
+        <span class="tag">ENTERPRISE GRADE</span>
+        <span class="tag">ZERO TRUST</span>
+        <span class="tag">AI POWERED</span>
+        <span class="tag">QUANTUM SAFE</span>
+      </div>
+    </section>
+
+    <!-- Challenge description -->
+    <section class="challenge-card">
+      <div class="card-header">
+        <div class="card-icon">📡</div>
+        <div>
+          <h2 class="card-title">MISSION BRIEFING</h2>
+          <p class="card-subtitle">CLASSIFICATION: TOP SECRET // THM CTF 2024</p>
+        </div>
+        <div class="difficulty-badge">
+          <span>HARD</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="mission-text">
+          Our internal vault contains sensitive intelligence that has been discovered by enemy operatives.
+          The vault is accessible only via <span class="highlight">localhost:8080</span> and is protected
+          by our state-of-the-art SSRF filter.
+        </p>
+        <p class="mission-text">
+          The SecureNet Fetcher service allows operators to retrieve content from external URLs.
+          All requests pass through our <span class="highlight-red">multi-layer SSRF protection</span> that blocks
+          every known internal IP range — loopback, private, link-local, CGNAT, and more.
+        </p>
+        <div class="intel-box">
+          <div class="intel-label">🔒 PROTECTED ENDPOINT</div>
+          <code class="intel-code">http://localhost:8080/flag</code>
+        </div>
+        <p class="mission-text">
+          Your mission: retrieve the flag from the internal vault. Direct IP access, encoded IPs,
+          keyword bypasses, and header tricks have all been patched. Think outside the box...
+        </p>
+      </div>
+    </section>
+
+    <!-- Filter status display -->
+    <section class="filters-section">
+      <h3 class="section-title"><span class="title-bar"></span> ACTIVE PROTECTION LAYERS</h3>
+      <div class="filters-grid">
+        <div class="filter-card" id="fc-loopback">
+          <div class="filter-icon">🚫</div>
+          <div class="filter-name">Loopback Block</div>
+          <div class="filter-ranges">127.0.0.0/8 · ::1</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-private-a">
+          <div class="filter-icon">🚫</div>
+          <div class="filter-name">Private Class A</div>
+          <div class="filter-ranges">10.0.0.0/8</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-private-b">
+          <div class="filter-icon">🚫</div>
+          <div class="filter-name">Private Class B</div>
+          <div class="filter-ranges">172.16.0.0/12</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-private-c">
+          <div class="filter-icon">🚫</div>
+          <div class="filter-name">Private Class C</div>
+          <div class="filter-ranges">192.168.0.0/16</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-link">
+          <div class="filter-icon">🚫</div>
+          <div class="filter-name">Link-Local</div>
+          <div class="filter-ranges">169.254.0.0/16 · fe80::/10</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-cgnat">
+          <div class="filter-icon">🚫</div>
+          <div class="filter-name">CGNAT Range</div>
+          <div class="filter-ranges">100.64.0.0/10</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-keyword">
+          <div class="filter-icon">🔍</div>
+          <div class="filter-name">Keyword Filter</div>
+          <div class="filter-ranges">localhost · internal · local</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-dns">
+          <div class="filter-icon">🌐</div>
+          <div class="filter-name">DNS Resolution Check</div>
+          <div class="filter-ranges">Resolves & validates all IPs</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+        <div class="filter-card" id="fc-encoded">
+          <div class="filter-icon">🚫</div>
+          <div class="filter-name">Encoded IP Block</div>
+          <div class="filter-ranges">Hex · Octal · Decimal forms</div>
+          <div class="filter-status active">ACTIVE</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main fetcher tool -->
+    <section class="fetcher-section">
+      <h3 class="section-title"><span class="title-bar"></span> URL FETCHER TERMINAL</h3>
+      <div class="terminal-card">
+        <div class="terminal-bar">
+          <div class="tb-dots">
+            <span class="tb-dot red"></span>
+            <span class="tb-dot yellow"></span>
+            <span class="tb-dot green"></span>
+          </div>
+          <div class="tb-title">securenet-fetcher@ctf:~$</div>
+          <div class="tb-status" id="connectionStatus">
+            <span class="dot online"></span> CONNECTED
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="input-area">
+            <label class="input-label" for="urlInput">TARGET URL</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">fetch &gt;</span>
+              <input
+                type="text"
+                id="urlInput"
+                class="url-input"
+                placeholder="https://example.com/..."
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </div>
+            <div class="input-meta">
+              Allowed schemes: <code>http://</code> <code>https://</code> &nbsp;|&nbsp;
+              Max URL length: <code>2048</code> chars
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button id="fetchBtn" class="btn-primary" onclick="fetchURL()">
+              <span class="btn-icon">⟹</span> EXECUTE FETCH
+            </button>
+            <button class="btn-secondary" onclick="clearOutput()">
+              <span class="btn-icon">⌫</span> CLEAR
+            </button>
+            <button class="btn-hint" onclick="toggleHint()">
+              <span class="btn-icon">?</span> HINT
+            </button>
+          </div>
+
+          <!-- Hint panel -->
+          <div id="hintPanel" class="hint-panel hidden">
+            <div class="hint-header">🔍 INTELLIGENCE REPORT — LEVEL 1 CLEARANCE</div>
+            <div class="hint-body">
+              <p>The IP validation happens in <strong>two phases</strong>:</p>
+              <ol>
+                <li>Pre-DNS check: hostname is validated for keywords and direct IP addresses</li>
+                <li>DNS resolution: your domain is resolved and the resulting IP is checked</li>
+                <li>The actual HTTP connection is made using the <em>same hostname</em> — which triggers another DNS lookup</li>
+              </ol>
+              <p>What if the DNS record changes <em>between step 2 and step 3</em>? 🤔</p>
+              <p class="hint-keyword">Research: <code>DNS Rebinding Attack</code></p>
+            </div>
+          </div>
+
+          <!-- Output area -->
+          <div class="output-area" id="outputArea">
+            <div class="output-placeholder">
+              <div class="placeholder-icon">_</div>
+              <p>Awaiting command...</p>
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-container" id="progressContainer" style="display:none">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-label" id="progressLabel">Initializing...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Attempts log -->
+    <section class="attempts-section">
+      <h3 class="section-title"><span class="title-bar"></span> SECURITY EVENT LOG</h3>
+      <div class="log-terminal">
+        <div class="log-header">
+          <span class="log-title">SECURENET-IDS v4.2 // REAL-TIME THREAT MONITOR</span>
+          <button class="log-clear-btn" onclick="clearLog()">CLEAR LOG</button>
+        </div>
+        <div id="securityLog" class="log-body">
+          <div class="log-entry info">
+            <span class="log-time" id="initTime"></span>
+            <span class="log-level info">INFO</span>
+            <span class="log-msg">SecureNet Fetcher initialized. All SSRF protection layers active.</span>
+          </div>
+          <div class="log-entry info">
+            <span class="log-time"></span>
+            <span class="log-level info">INFO</span>
+            <span class="log-msg">Monitoring for suspicious URL patterns and SSRF attempts...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-grid">
+        <div class="footer-item">
+          <div class="fi-label">CHALLENGE</div>
+          <div class="fi-value">SSRF via DNS Rebinding</div>
+        </div>
+        <div class="footer-item">
+          <div class="fi-label">CATEGORY</div>
+          <div class="fi-value">Web Exploitation</div>
+        </div>
+        <div class="footer-item">
+          <div class="fi-label">DIFFICULTY</div>
+          <div class="fi-value red">HARD</div>
+        </div>
+        <div class="footer-item">
+          <div class="fi-label">FLAG FORMAT</div>
+          <div class="fi-value">THM{...}</div>
+        </div>
+        <div class="footer-item">
+          <div class="fi-label">AUTHOR</div>
+          <div class="fi-value">THM CTF Team</div>
+        </div>
+      </div>
+      <p class="footer-copy">© 2024 THM CTF // UNAUTHORIZED ACCESS IS PROHIBITED AND MONITORED</p>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
