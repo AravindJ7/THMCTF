@@ -1,9 +1,9 @@
 # CTF Writeup — SecureNet Fetcher
-**Event:** SECE CTF 2024  
+**Event:** THM CTF 2024  
 **Category:** Web Exploitation  
 **Challenge:** SecureNet Fetcher  
 **Difficulty:** Hard  
-**Flag:** `SECE{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}`  
+**Flag:** `THM{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}`  
 **Solves:** (challenge author writeup)  
 
 ---
@@ -212,7 +212,7 @@ When it hits, the response contains the flag:
 {
   "success": true,
   "status": 200,
-  "body": "{\n  \"flag\": \"SECE{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}\"\n}"
+  "body": "{\n  \"flag\": \"THM{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}\"\n}"
 }
 ```
 
@@ -296,7 +296,7 @@ T+3017ms OS: getaddrinfo("s-1-2-3-4-127-0-0-1-pwn01.attacker.com")
              → Query #2 → Singularity returns 127.0.0.1 🎯
 T+3018ms TCP SYN → 127.0.0.1:8080
 T+3020ms Connection established → GET /flag HTTP/1.1
-T+3025ms Internal vault responds: {"flag":"SECE{...}"}
+T+3025ms Internal vault responds: {"flag":"THM{...}"}
 T+3026ms Server forwards response back to player → 🏁
 ```
 
@@ -305,7 +305,7 @@ T+3026ms Server forwards response back to player → 🏁
 ## 🏁 Flag
 
 ```
-SECE{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}
+THM{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}
 ```
 
 ---

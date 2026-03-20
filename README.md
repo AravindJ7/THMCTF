@@ -2,8 +2,8 @@
 
 > **Category:** Web Exploitation  
 > **Difficulty:** Hard  
-> **Flag Format:** `SECE{...}`  
-> **Author:** SECE CTF Team  
+> **Flag Format:** `THM{...}`  
+> **Author:** THM CTF Team  
 
 ---
 
@@ -171,5 +171,5 @@ SSRF/
 ## 🏁 Flag
 
 ```
-SECE{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}
+THM{d0nt_trust_the_dns_r3binding_c4n_byp4ss_y0ur_1p_f1lt3rs_42}
 ```
